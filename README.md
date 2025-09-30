@@ -2,7 +2,7 @@
 
 A robust web application for managing gym operations, built with React (frontend), Flask (backend), and PostgreSQL (database), featuring role-based access for users, trainers, and admins.
 
-By David Chumo
+By David Chumo and Adreen Githinji
 
 ## Description
 
