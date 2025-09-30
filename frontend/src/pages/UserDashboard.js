@@ -9,9 +9,15 @@ function UserDashboard() {
   const navigate = useNavigate();
 
   const fetchDashboard = useCallback(async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      toast.error('Please log in to access the dashboard');
+      navigate('/login');
+      return;
+    }
     try {
       const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/dashboard', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
       if (response.ok) {

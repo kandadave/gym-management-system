@@ -14,9 +14,15 @@ function AdminDashboard() {
   const navigate = useNavigate();
 
   const fetchDashboard = useCallback(async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      toast.error('Please log in to access the dashboard');
+      navigate('/login');
+      return;
+    }
     try {
       const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/admin-dashboard', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
       if (response.ok) {
@@ -118,13 +124,11 @@ function AdminDashboard() {
   };
 
   const handleEditUser = (user) => {
-    console.log('Editing user:', user);
     setEditingUser({ id: user.id, username: user.username, email: user.email, role: user.role, password: '' });
   };
 
   const handleUpdateUser = async (e) => {
     e.preventDefault();
-    console.log('Updating user with payload:', editingUser);
     try {
       const payload = {
         id: editingUser.id,
@@ -178,13 +182,11 @@ function AdminDashboard() {
   };
 
   const handleEditTrainer = (trainer) => {
-    console.log('Editing trainer:', trainer);
     setEditingTrainer({ id: trainer.id, username: trainer.username, email: trainer.email, password: '' });
   };
 
   const handleUpdateTrainer = async (e) => {
     e.preventDefault();
-    console.log('Updating trainer with payload:', editingTrainer);
     try {
       const payload = {
         id: editingTrainer.id,
