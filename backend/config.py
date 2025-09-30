@@ -24,6 +24,12 @@ app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+
+# Add root route
+@app.route('/')
+def home():
+    return {"message": "Gym Management System Backend - API is running"}, 200
+
+CORS(app, resources={r"/api/*": {"origins": ["http://localhost:3000", "https://your-netlify-url.netlify.app"]}})
 jwt = JWTManager(app)
 mail = Mail(app)
