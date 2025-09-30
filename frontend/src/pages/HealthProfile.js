@@ -7,7 +7,7 @@ function HealthProfile() {
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/health-profile', {
+    fetch('https://gym-management-system-xvbr.onrender.com/api/health-profile', {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     })
       .then((res) => res.json())

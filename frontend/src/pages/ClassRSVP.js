@@ -10,7 +10,7 @@ function ClassRSVP() {
   useEffect(() => {
     const fetchClasses = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/classes', {
+        const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/classes', {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
         const data = await response.json();

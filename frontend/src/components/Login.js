@@ -18,7 +18,7 @@ function Login() {
           })}
           onSubmit={(values, { setSubmitting }) => {
             console.log('Submitting login with values:', values);
-            fetch('http://localhost:5000/api/login', {
+            fetch('https://gym-management-system-xvbr.onrender.com/api/login', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(values),

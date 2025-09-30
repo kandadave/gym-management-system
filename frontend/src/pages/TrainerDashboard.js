@@ -10,7 +10,7 @@ function TrainerDashboard() {
 
   const fetchDashboard = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/trainer-dashboard', {
+      const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/trainer-dashboard', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       const data = await response.json();

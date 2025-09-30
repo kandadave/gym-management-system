@@ -20,7 +20,7 @@ function Register() {
           })}
           onSubmit={(values, { setSubmitting }) => {
             console.log('Submitting register with values:', values);
-            fetch('http://localhost:5000/api/register', {
+            fetch('https://gym-management-system-xvbr.onrender.com/api/register', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(values),
