@@ -24,6 +24,6 @@ app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-CORS(app, resources={r"/api/*": {"origins": ["http://localhost:3000", "https://bespoke-marzipan-63d200.netlify.app/"]}})
+CORS(app, resources={r"/api/*": {"origins": ["http://localhost:3000", "https://bespoke-marzipan-63d200.netlify.app", "https://gym-management-system2.netlify.app"]}})
 jwt = JWTManager(app)
 mail = Mail(app)
