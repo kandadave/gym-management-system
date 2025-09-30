@@ -54,7 +54,7 @@ function AdminDashboard() {
       return;
     }
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscriptions`, {
+      const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/subscriptions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify({ ...newSubscription, duration_months: durationMonths, price }),
@@ -76,7 +76,7 @@ function AdminDashboard() {
   const handleCreateUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users`, {
+      const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify(newUser),
@@ -98,7 +98,7 @@ function AdminDashboard() {
   const handleCreateTrainer = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainers`, {
+      const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/trainers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify({ ...newTrainer, role: 'trainer' }),
@@ -135,7 +135,7 @@ function AdminDashboard() {
       if (editingUser.password) {
         payload.password = editingUser.password;
       }
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users`, {
+      const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/users', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify(payload),
@@ -158,7 +158,7 @@ function AdminDashboard() {
   const handleDeleteUser = async (userId) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users`, {
+        const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/users', {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
           body: JSON.stringify({ id: userId }),
@@ -194,7 +194,7 @@ function AdminDashboard() {
       if (editingTrainer.password) {
         payload.password = editingTrainer.password;
       }
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainers`, {
+      const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/trainers', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify(payload),
@@ -217,7 +217,7 @@ function AdminDashboard() {
   const handleDeleteTrainer = async (trainerId) => {
     if (window.confirm('Are you sure you want to delete this trainer?')) {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainers`, {
+        const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/trainers', {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
           body: JSON.stringify({ id: trainerId }),
@@ -243,7 +243,7 @@ function AdminDashboard() {
       return;
     }
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/assign-trainer`, {
+      const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/assign-trainer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify(assignTrainer),

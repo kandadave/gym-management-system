@@ -41,7 +41,7 @@ function UserDashboard() {
 
   const handleRSVP = async (classId) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/rsvp`, {
+      const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/rsvp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify({ class_id: classId }),
@@ -61,7 +61,7 @@ function UserDashboard() {
 
   const handleMarkAttendance = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/attendance`, {
+      const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/attendance', {
         method: 'POST',
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
@@ -81,7 +81,7 @@ function UserDashboard() {
 
   const handleRegisterSubscription = async (subId) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user-subscriptions`, {
+      const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/user-subscriptions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify({ plan_id: subId }),

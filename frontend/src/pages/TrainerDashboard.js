@@ -39,7 +39,7 @@ function TrainerDashboard() {
   const handleClassSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/classes`, {
+      const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/classes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify(newClass),
