@@ -101,7 +101,7 @@ class HealthProfile(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     weight_kg = db.Column(db.Float)
     height_cm = db.Column(db.Float)
-    bmi = db.Column(db.Float)  # Added
+    bmi = db.Column(db.Float)  
     goal = db.Column(db.Text)
 
     def to_dict(self):
@@ -121,8 +121,8 @@ class WorkoutClass(db.Model, SerializerMixin):
     date_time = db.Column(db.DateTime, nullable=False)
     description = db.Column(db.Text)
     trainer_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
-    max_capacity = db.Column(db.Integer, default=10)  # Added
-    current_capacity = db.Column(db.Integer, default=0)  # Added
+    max_capacity = db.Column(db.Integer, default=10)  
+    current_capacity = db.Column(db.Integer, default=0)  
     rsvps = db.relationship('ClassRSVP', backref='workout_class', lazy=True)
     trainer = db.relationship('User', backref='classes', lazy=True)
     users = association_proxy('rsvps', 'user')
