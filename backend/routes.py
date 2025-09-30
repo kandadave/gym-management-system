@@ -5,6 +5,9 @@ from models import User, SubscriptionPlan, UserSubscription, Attendance, HealthP
 from datetime import datetime, timedelta
 import logging
 
+@app.route('/')
+def home():
+    return jsonify({"message": "Gym Management System Backend - API is running"}), 200
 
 @app.route('/api/register', methods=['POST'])
 def register():

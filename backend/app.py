@@ -13,6 +13,13 @@ logging.basicConfig(
     ]
 )
 
+# Custom 404 handler
+@app.errorhandler(404)
+def not_found(error):
+    logging.error(f"404 Not Found: {str(error)}")
+    return jsonify({"error": "Not Found", "message": "The requested endpoint does not exist"}), 404
+
+
 # Custom error handler to ensure CORS headers
 @app.errorhandler(Exception)
 def handle_error(error):
