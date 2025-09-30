@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ function AdminDashboard() {
   const [assignTrainer, setAssignTrainer] = useState({ user_id: '', trainer_id: '' });
   const navigate = useNavigate();
 
-  const fetchDashboard = async () => {
+  const fetchDashboard = useCallback(async () => {
     try {
       const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/admin-dashboard', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
@@ -35,11 +35,11 @@ function AdminDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [navigate]);
 
   useEffect(() => {
     fetchDashboard();
-  }, [navigate]);
+  }, [fetchDashboard]);
 
   const handleSubscriptionSubmit = async (e) => {
     e.preventDefault();
@@ -54,7 +54,7 @@ function AdminDashboard() {
       return;
     }
     try {
-      const response = await fetch('http://localhost:5000/api/subscriptions', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscriptions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify({ ...newSubscription, duration_months: durationMonths, price }),
@@ -76,7 +76,7 @@ function AdminDashboard() {
   const handleCreateUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/users', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify(newUser),
@@ -98,7 +98,7 @@ function AdminDashboard() {
   const handleCreateTrainer = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/trainers', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainers`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify({ ...newTrainer, role: 'trainer' }),
@@ -118,13 +118,13 @@ function AdminDashboard() {
   };
 
   const handleEditUser = (user) => {
-    console.log('Editing user:', user); // Debug log
+    console.log('Editing user:', user);
     setEditingUser({ id: user.id, username: user.username, email: user.email, role: user.role, password: '' });
   };
 
   const handleUpdateUser = async (e) => {
     e.preventDefault();
-    console.log('Updating user with payload:', editingUser); // Debug log
+    console.log('Updating user with payload:', editingUser);
     try {
       const payload = {
         id: editingUser.id,
@@ -135,7 +135,7 @@ function AdminDashboard() {
       if (editingUser.password) {
         payload.password = editingUser.password;
       }
-      const response = await fetch('http://localhost:5000/api/users', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify(payload),
@@ -158,7 +158,7 @@ function AdminDashboard() {
   const handleDeleteUser = async (userId) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
-        const response = await fetch('http://localhost:5000/api/users', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users`, {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
           body: JSON.stringify({ id: userId }),
@@ -178,13 +178,13 @@ function AdminDashboard() {
   };
 
   const handleEditTrainer = (trainer) => {
-    console.log('Editing trainer:', trainer); // Debug log
+    console.log('Editing trainer:', trainer);
     setEditingTrainer({ id: trainer.id, username: trainer.username, email: trainer.email, password: '' });
   };
 
   const handleUpdateTrainer = async (e) => {
     e.preventDefault();
-    console.log('Updating trainer with payload:', editingTrainer); // Debug log
+    console.log('Updating trainer with payload:', editingTrainer);
     try {
       const payload = {
         id: editingTrainer.id,
@@ -194,7 +194,7 @@ function AdminDashboard() {
       if (editingTrainer.password) {
         payload.password = editingTrainer.password;
       }
-      const response = await fetch('http://localhost:5000/api/trainers', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainers`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify(payload),
@@ -217,7 +217,7 @@ function AdminDashboard() {
   const handleDeleteTrainer = async (trainerId) => {
     if (window.confirm('Are you sure you want to delete this trainer?')) {
       try {
-        const response = await fetch('http://localhost:5000/api/trainers', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainers`, {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
           body: JSON.stringify({ id: trainerId }),
@@ -243,7 +243,7 @@ function AdminDashboard() {
       return;
     }
     try {
-      const response = await fetch('http://localhost:5000/api/assign-trainer', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/assign-trainer`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify(assignTrainer),

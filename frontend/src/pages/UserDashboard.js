@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,7 +8,7 @@ function UserDashboard() {
   const [attendanceMarked, setAttendanceMarked] = useState(false);
   const navigate = useNavigate();
 
-  const fetchDashboard = async () => {
+  const fetchDashboard = useCallback(async () => {
     try {
       const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/dashboard', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
@@ -16,7 +16,6 @@ function UserDashboard() {
       const data = await response.json();
       if (response.ok) {
         setDashboardData(data);
-        // Check if today's attendance is already marked
         const today = new Date().toISOString().split('T')[0];
         const isAttendanceMarked = data.attendance.some(att => att.date === today && att.attended);
         setAttendanceMarked(isAttendanceMarked);
@@ -34,15 +33,15 @@ function UserDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [navigate]);
 
   useEffect(() => {
     fetchDashboard();
-  }, [navigate]);
+  }, [fetchDashboard]);
 
   const handleRSVP = async (classId) => {
     try {
-      const response = await fetch('http://localhost:5000/api/rsvp', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/rsvp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify({ class_id: classId }),
@@ -62,7 +61,7 @@ function UserDashboard() {
 
   const handleMarkAttendance = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/attendance', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/attendance`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
@@ -82,7 +81,7 @@ function UserDashboard() {
 
   const handleRegisterSubscription = async (subId) => {
     try {
-      const response = await fetch('http://localhost:5000/api/user-subscriptions', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user-subscriptions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify({ plan_id: subId }),

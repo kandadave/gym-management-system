@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,7 +8,7 @@ function TrainerDashboard() {
   const [newClass, setNewClass] = useState({ name: '', date_time: '', max_capacity: 10 });
   const navigate = useNavigate();
 
-  const fetchDashboard = async () => {
+  const fetchDashboard = useCallback(async () => {
     try {
       const response = await fetch('https://gym-management-system-xvbr.onrender.com/api/trainer-dashboard', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
@@ -30,16 +30,16 @@ function TrainerDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [navigate]);
 
   useEffect(() => {
     fetchDashboard();
-  }, [navigate]);
+  }, [fetchDashboard]);
 
   const handleClassSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/classes', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/classes`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify(newClass),
