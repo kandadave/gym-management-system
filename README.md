@@ -1,70 +1,138 @@
-# Getting Started with Create React App
+# Gym Management System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A robust web application for managing gym operations, built with React (frontend), Flask (backend), and PostgreSQL (database), featuring role-based access for users, trainers, and admins.
 
-## Available Scripts
+By David Chumo
 
-In the project directory, you can run:
+## Description
 
-### `npm start`
+This application streamlines gym management by providing a platform where users can register, log in, and track their subscriptions, attendance, and health profiles. Trainers can manage classes and trainees, while admins oversee users, trainers, and subscription plans. The system leverages a live backend API built with Flask and a PostgreSQL database, ensuring a persistent and scalable experience. It showcases advanced front-end development concepts like React routing, form handling with Formik and Yup, and Tailwind CSS for responsive design.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  * **User Authentication**: Secure registration and login for users, trainers, and admins with role-based access.
+  * **User Dashboard**: Displays subscription plans, trainer details, attendance history, and class RSVPs with days left on subscriptions.
+  * **Trainer Dashboard**: Allows trainers to create and manage workout classes and view their assigned trainees.
+  * **Admin Dashboard**: Enables admins to create, edit, and delete users, trainers, and subscription plans, plus assign trainers to users.
+  * **Subscription Management**: Users can register for plans, with restrictions preventing overlap, and admins can define new plans.
+  * **Attendance Tracking**: Features a GitHub-like calendar to visualize attendance and real-time marking.
+  * **Class RSVP System**: Users can RSVP for classes, with trainers managing class schedules.
+  * **Responsive Design**: A modern, interactive UI that adapts to desktop, tablet, and mobile devices using Tailwind CSS.
+  * **Real-Time Updates**: Seamless data fetching and updates via API calls to the Flask backend.
 
-### `npm test`
+## Screenshot
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![User Dashboard](<Screenshot from 2025-09-30 23-15-43.png>)
 
-### `npm run build`
+## How to Use
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Requirements
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  * A computer with **Node.js** and **npm** installed (for frontend).
+  * **Python 3.x** and **pip** (for backend).
+  * PostgreSQL database (local or hosted).
+  * Access to the internet.
+  * A modern web browser (e.g., Chrome, Firefox, Edge, Safari).
+  * A code editor (VS Code recommended).
+  * Terminal/Command Line.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### View Live Site
 
-### `npm run eject`
+Visit the deployed application at: [Gym Management System](https://gym-management-system2.netlify.app/)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The live site allows you to:
+  * Register and log in as a user, trainer, or admin.
+  * Manage subscriptions, attendance, and classes.
+  * Administer users, trainers, and plans.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Local Development
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+To run the project locally, follow these steps:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### Installation Process
 
-## Learn More
+1. **Clone this repository** using:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    ```bash
+    git clone https://github.com/kandadave/gym-management-system.git
+    ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    or download a ZIP file of the code.
 
-### Code Splitting
+2. **Navigate to the project directory**:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    ```bash
+    cd gym-management-system
+    ```
 
-### Analyzing the Bundle Size
+3. **Set up the Backend**:
+   - Install Python dependencies:
+     ```bash
+     cd backend
+     pip install -r requirements.txt
+     ```
+   - Configure environment variables in a `.env` file (e.g., `DATABASE_URL`, `SECRET_KEY`, `JWT_SECRET_KEY`, mail settings).
+   - Initialize the database:
+     ```bash
+     flask db init
+     flask db migrate -m "Initial migration"
+     flask db upgrade
+     ```
+   - Run the Flask app:
+     ```bash
+     python app.py
+     ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+4. **Set up the Frontend**:
+   - Install Node dependencies:
+     ```bash
+     cd ../frontend
+     npm install
+     ```
+   - Start the development server:
+     ```bash
+     npm start
+     ```
+   - Open `http://localhost:3000` in your browser.
 
-### Making a Progressive Web App
+## Technologies Used
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+  * **React**: For building the dynamic front-end interface.
+  * **Flask**: For the RESTful backend API.
+  * **PostgreSQL**: For persistent data storage with SQLAlchemy ORM.
+  * **Tailwind CSS**: For responsive and modern styling.
+  * **Formik & Yup**: For form handling and validation.
+  * **JWT**: For secure authentication.
+  * **GitHub Actions**: For CI/CD pipeline (if configured).
 
-### Advanced Configuration
+## Support and Contact Details
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+If you have any questions, suggestions, or need assistance, please contact:
 
-### Deployment
+Email: david.chumo@student.moringaschool.com
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## License
 
-### `npm run build` fails to minify
+```
+MIT License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Copyright © 2025 David Chumo / Adreen Githinji
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
