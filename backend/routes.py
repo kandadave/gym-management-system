@@ -5,10 +5,6 @@ from models import User, SubscriptionPlan, UserSubscription, Attendance, HealthP
 from datetime import datetime, timedelta
 import logging
 
-# Root route for Render health check
-@app.route('/')
-def home():
-    return {"message": "Gym Management System Backend - API is running"}, 200
 
 @app.route('/api/register', methods=['POST'])
 def register():
