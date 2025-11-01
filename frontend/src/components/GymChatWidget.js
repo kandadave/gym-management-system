@@ -5,7 +5,7 @@ const GymChatWidget = () => {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const N8N_WEBHOOK = 'https://n8n.banja.co.ke/webhook-test/website-chatbot'; // ← Public URL
+  const N8N_WEBHOOK = 'https://n8n.banja.co.ke/webhook/website-chatbot'; // ← Public URL
 
   const sendMessage = async () => {
     if (!input.trim() || loading) return;
