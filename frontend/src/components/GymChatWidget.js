@@ -6,123 +6,194 @@ const GymChatWidget = () => {
   const [loading, setLoading] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
 
-  const N8N_WEBHOOK = 'https://n8n.banja.co.ke/webhook/website-chatbot';  // Your production URL
+  // Your production webhook
+  const N8N_WEBHOOK = 'https://n8n.banja.co.ke/webhook/website-chatbot';
 
   const sendMessage = async () => {
     if (!input.trim() || loading) return;
 
-    const userMsg = { role: 'user', text: input };
-    setMessages(prev => [...prev, userMsg]);
+    const userMessage = { role: 'user', text: input };
+    setMessages(prev => [...prev, userMessage]);
     setLoading(true);
 
     try {
-      const res = await fetch(N8N_WEBHOOK, {
+      const response = await fetch(N8N_WEBHOOK, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: input }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt: input }), // ← KEY CHANGE: "prompt"
       });
 
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.error || 'Network error');
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error || `HTTP ${response.status}`);
       }
 
-      const data = await res.json();
-      const botMsg = { role: 'bot', text: data.answer || 'No answer received.' };
-      setMessages(prev => [...prev, botMsg]);
+      const data = await response.json();
+      const botMessage = { 
+        role: 'bot', 
+        text: data.output || data.answer || 'No response from bot.' 
+      };
+      setMessages(prev => [...prev, botMessage]);
     } catch (err) {
-      const errMsg = { role: 'bot', text: `Error: ${err.message}. Try again or contact support.` };
-      setMessages(prev => [...prev, errMsg]);
+      const errorMessage = { 
+        role: 'bot', 
+        text: `Connection failed: ${err.message}. Check internet or try later.` 
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setInput('');
+      setLoading(false);
     }
-
-    setInput('');
-    setLoading(false);
   };
 
   const toggleMinimize = () => setIsMinimized(!isMinimized);
 
+  // Minimized View
   if (isMinimized) {
     return (
-      <div style={{
-        position: 'fixed', bottom: 20, right: 20,
-        background: '#007bff', color: 'white', padding: '10px 15px',
-        borderRadius: 25, cursor: 'pointer', boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-        zIndex: 1000, fontSize: 14, fontWeight: 'bold'
-      }} onClick={toggleMinimize}>
-        💬 Gym Assistant
+      <div
+        onClick={toggleMinimize}
+        style={{
+          position: 'fixed',
+          bottom: 20,
+          right: 20,
+          background: '#007bff',
+          color: 'white',
+          padding: '12px 18px',
+          borderRadius: '50%',
+          fontSize: '20px',
+          cursor: 'pointer',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+          zIndex: 1000,
+        }}
+      >
+        
       </div>
     );
   }
 
+  // Full Chat View
   return (
-    <div style={{
-      position: 'fixed', bottom: 20, right: 20,
-      width: 380, height: 520,
-      background: 'white', border: '1px solid #ddd',
-      borderRadius: 12, boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-      fontFamily: 'Arial, sans-serif', zIndex: 1000
-    }}>
-      <div style={{
-        background: '#007bff', color: 'white', padding: 12,
-        borderRadius: '12px 12px 0 0', fontWeight: 'bold', cursor: 'pointer',
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center'
-      }} onClick={toggleMinimize}>
+    <div
+      style={{
+        position: 'fixed',
+        bottom: 20,
+        right: 20,
+        width: 380,
+        height: 540,
+        background: 'white',
+        borderRadius: 16,
+        boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
+        fontFamily: 'system-ui, sans-serif',
+        zIndex: 1000,
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      {/* Header */}
+      <div
+        onClick={toggleMinimize}
+        style={{
+          background: '#007bff',
+          color: 'white',
+          padding: '14px 16px',
+          borderRadius: '16px 16px 0 0',
+          fontWeight: '600',
+          fontSize: '16px',
+          cursor: 'pointer',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
         <span>Gym Assistant</span>
-        <span style={{ fontSize: 18 }}>-</span>  {/* Minimize icon */}
+        <span style={{ fontSize: '20px' }}>−</span>
       </div>
 
-      <div style={{
-        height: 380, overflowY: 'auto', padding: 10,
-        background: '#f9f9f9'
-      }}>
+      {/* Messages */}
+      <div
+        style={{
+          flex: 1,
+          padding: '12px',
+          overflowY: 'auto',
+          background: '#f8f9fa',
+        }}
+      >
         {messages.length === 0 && (
-          <p style={{ color: '#666', fontSize: 14, textAlign: 'center', marginTop: 50 }}>
-            Ask about hours, pricing, classes...
+          <p style={{ color: '#6c757d', fontSize: '14px', textAlign: 'center', marginTop: '40px' }}>
+            Ask about hours, classes, pricing...
           </p>
         )}
-        {messages.map((m, i) => (
-          <div key={i} style={{
-            textAlign: m.role === 'user' ? 'right' : 'left',
-            margin: '8px 0'
-          }}>
-            <span style={{
-              display: 'inline-block',
-              maxWidth: '80%',
-              background: m.role === 'user' ? '#007bff' : '#e9ecef',
-              color: m.role === 'user' ? 'white' : 'black',
-              padding: '10px 14px',
-              borderRadius: 18,
-              fontSize: 14
-            }}>
-              {m.text}
-            </span>
+        {messages.map((msg, i) => (
+          <div
+            key={i}
+            style={{
+              margin: '10px 0',
+              textAlign: msg.role === 'user' ? 'right' : 'left',
+            }}
+          >
+            <div
+              style={{
+                display: 'inline-block',
+                maxWidth: '80%',
+                background: msg.role === 'user' ? '#007bff' : '#e9ecef',
+                color: msg.role === 'user' ? 'white' : '#212529',
+                padding: '10px 14px',
+                borderRadius: '18px',
+                fontSize: '14.5px',
+                lineHeight: '1.4',
+              }}
+            >
+              {msg.text}
+            </div>
           </div>
         ))}
-        {loading && <div style={{ color: '#007bff', textAlign: 'center' }}>Thinking...</div>}
+        {loading && (
+          <div style={{ textAlign: 'left', color: '#007bff', fontSize: '14px' }}>
+            Thinking...
+          </div>
+        )}
       </div>
 
-      <div style={{ padding: 10, borderTop: '1px solid #eee', display: 'flex' }}>
+      {/* Input */}
+      <div
+        style={{
+          padding: '12px',
+          borderTop: '1px solid #e0e0e0',
+          display: 'flex',
+          gap: '8px',
+        }}
+      >
         <input
           type="text"
           value={input}
-          onChange={e => setInput(e.target.value)}
-          onKeyPress={e => e.key === 'Enter' && sendMessage()}
-          placeholder="Type a message..."
-          style={{
-            flex: 1, padding: '10px 12px',
-            border: '1px solid #ddd', borderRadius: 20,
-            fontSize: 14
-          }}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+          placeholder="Type your question..."
           disabled={loading}
+          style={{
+            flex: 1,
+            padding: '10px 14px',
+            border: '1px solid #ced4da',
+            borderRadius: '20px',
+            fontSize: '14px',
+            outline: 'none',
+          }}
         />
         <button
           onClick={sendMessage}
-          disabled={loading}
+          disabled={loading || !input.trim()}
           style={{
-            marginLeft: 8, padding: '10px 16px',
-            background: '#007bff', color: 'white',
-            border: 'none', borderRadius: 20,
-            cursor: 'pointer'
+            padding: '10px 16px',
+            background: '#007bff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '20px',
+            cursor: 'pointer',
+            fontSize: '14px',
+            fontWeight: '500',
           }}
         >
           {loading ? '...' : 'Send'}
