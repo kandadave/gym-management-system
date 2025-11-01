@@ -8,6 +8,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import TrainerDashboard from './pages/TrainerDashboard';
 import HealthProfile from './pages/HealthProfile';
 import ClassRSVP from './pages/ClassRSVP';
+import GymChatWidget from './components/GymChatWidget'; 
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/health-profile" element={<HealthProfile />} />
         <Route path="/class-rsvp" element={<ClassRSVP />} />
       </Routes>
+      <GymChatWidget />
     </Router>
   );
 }
